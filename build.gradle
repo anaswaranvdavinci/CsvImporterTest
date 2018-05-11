@@ -1,0 +1,153 @@
+group 'CsvImportTest'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.akhikhl.gretty:gretty:1.4.2'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.akhikhl.gretty'
+apply plugin: 'groovy'
+
+
+// JDK 8
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        url 'http://maven.twttr.com/'
+    }
+}
+compileJava {
+    options.fork = true
+    options.forkOptions.executable = "${System.properties['java.home']}/../bin/javac"
+}
+
+gretty {
+    httpPort = 8089
+    contextPath = ''
+    servletContainer = 'tomcat8'
+    fastReload = true
+    managedClassReload = false
+    reloadOnClassChange = false
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    //General
+    compile 'ch.qos.logback:logback-classic:1.1.3' //Logger
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.7.2'//JSON
+    compile 'org.thymeleaf:thymeleaf-spring4:2.1.4.RELEASE'//Html Template
+    compile group: 'org.json', name: 'json', version: '20180130' // Json API
+
+    //Integration
+    compile group: 'org.apache.commons', name: 'commons-vfs2', version: '2.1'//Apache VFS2.1
+    compile group: 'commons-net', name: 'commons-net', version: '3.6'//Apache Commons Net
+    compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.3.2'//Apache Commons FileUpload
+    compile group: 'com.jcraft', name: 'jsch', version: '0.1.54'//JSch (SFTP)
+
+    //Java
+    compile 'javax.inject:javax.inject:1'
+    compile 'javax.mail:javax.mail-api:1.5.5'
+    compile group: 'com.sun.mail', name: 'javax.mail', version: '1.5.5'
+    compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-csv', version: '2.8.6'
+
+    //Spring
+    compile 'org.springframework:spring-webmvc:4.2.5.RELEASE'//Spring MVC
+    compile 'org.springframework:spring-context-support:4.2.5.RELEASE'//Spring Core
+//    compile group: 'org.springframework.security', name: 'spring-security-config', version: spring_security_version
+//    compile group: 'org.springframework.security', name: 'spring-security-data', version: spring_security_version
+//    compile group: 'org.springframework.security', name: 'spring-security-web', version: spring_security_version
+    compile group: 'org.springframework', name: 'spring-aspects', version: '4.2.5.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-mongodb', version: '1.10.1.RELEASE'
+    compile group: 'org.mongeez', name: 'mongeez', version: '0.9.4'
+
+    compile 'org.springframework.data:spring-data-jpa:1.11.7.RELEASE'//Spring Data Jpa
+
+    //https://mvnrepository.com/artifact/javax.persistence/persistence-api
+    compile group: 'javax.persistence', name: 'persistence-api', version: '1.0'
+
+    //Hibernate
+    //compile group: 'org.hibernate', name: 'hibernate-envers'
+    //compile group: 'org.hibernate', name: 'hibernate-validator'
+    //compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: hibernate_entitymaner_version
+
+    compile group: 'javax.el', name: 'javax.el-api', version: '2.2.4'//validtor depen
+    compile group: 'org.glassfish.web', name: 'javax.el', version: '2.2.1'
+    compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '8.5.20'
+
+    //myBatis
+    compile group: 'org.mybatis', name: 'mybatis-spring', version: '1.3.1'
+    compile group: 'org.mybatis', name: 'mybatis', version: '3.4.2'
+    compile group: 'org.mybatis.caches', name: 'mybatis-ehcache', version: '1.1.0'
+
+    //Messaging
+    compile group: 'org.springframework', name: 'spring-websocket', version: '4.3.6.RELEASE'
+    compile group: 'org.springframework', name: 'spring-messaging', version: '4.3.7.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-messaging', version: '4.2.1.RELEASE'
+    compile group: 'io.projectreactor', name: 'reactor-bus', version: '2.0.8.RELEASE'
+
+    //EHCACHE
+    compile group: 'net.sf.ehcache', name: 'ehcache', version: '2.10.4'
+
+    //Hibernate
+    compile group: 'org.hibernate', name: 'hibernate-validator', version: '5.0.0.Final'
+    compile "javax.validation:validation-api:1.1.0.Final"
+
+    //DB Connector
+    compile files('src/main/resources/META-INF/libs/ojdbc7.jar')//Oracle
+//    compile 'mysql:mysql-connector-java:5.1.38'//Mysql
+    compile group: 'net.sourceforge.jtds', name: 'jtds', version: '1.3.1'
+
+    //Connection poll
+//    compile(group: 'com.zaxxer', name: 'HikariCP', version: HikariCP_version) {
+//        exclude(module: 'tools')
+//    }
+    compile 'org.apache.commons:commons-dbcp2:2.1.1'
+
+    //Commons
+//    compile group: 'commons-lang', name: 'commons-lang', version: commons_lang_version
+//    compile group: 'commons-io', name: 'commons-io', version: commons_io_version
+
+    //Encache
+    //compile(group: 'org.hibernate', name: 'hibernate-ehcache')
+    compile group: 'org.springframework.data', name: 'spring-data-redis', version: '1.5.0.RELEASE'
+    compile group: 'redis.clients', name: 'jedis', version: '2.6.0'
+    compile group: 'com.esotericsoftware', name: 'kryo', version: '4.0.0'
+
+    //Jasper
+    compile group: 'org.olap4j', name: 'olap4j', version: '1.2.0'
+    compile group: 'com.lowagie', name: 'itext', version: '2.1.7'
+
+    compile files('src/main/resources/META-INF/libs/commons-javaflow.jar')
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
+    compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
+    compile group: 'commons-logging', name: 'commons-logging', version: '1.2'
+    compile group: 'commons-digester', name: 'commons-digester', version: '2.1'
+    compile group: 'joda-time', name: 'joda-time', version: '2.8.2'
+
+    //Testing
+    testCompile 'org.springframework:spring-test:4.1.6.RELEASE'
+//    testCompile group: 'org.assertj', name: 'assertj-core', version: assertj_core_version
+    testCompile 'org.hamcrest:hamcrest-all:1.3'
+    testCompile 'org.mockito:mockito-all:1.10.19'
+    testCompile('junit:junit:4.11') {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+        exclude group: 'org.hamcrest', module: 'Matcher'
+    }
+    testCompile 'org.springframework.integration:spring-integration-test:4.2.5.RELEASE'
+    testCompile 'com.jayway.jsonpath:json-path-assert:2.2.0'
+    testCompile group: 'io.gatling.highcharts', name: 'gatling-charts-highcharts', version: '2.2.5'
+
+}
